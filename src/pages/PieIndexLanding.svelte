@@ -33,6 +33,7 @@
   import Modal from '../components/elements/Modal.svelte';
   import PieExplanation from '../components/marketing-elements/pie-explanation-switch.svelte';
   import TooltipButton from '../components/elements/TooltipButton.svelte';
+  import Swap from '../components/Swap.svelte';
 
   export let params;
 
@@ -306,8 +307,12 @@
                     role="menuitem">Redeem</a
                   >
                   {#if farmingPieObj}
-                    <a href="#/staking/{farmingPieObj.slug}" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900" role="menuitem">Farm</a>
-                  {/if}                  
+                    <a
+                      href="#/staking/{farmingPieObj.slug}"
+                      class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                      role="menuitem">Farm</a
+                    >
+                  {/if}
                 </div>
               </div>
             </div>
@@ -605,6 +610,8 @@
     </div>
   {/if}
 
+  <Swap />
+
   <div class="flex flex-col w-full mt-2 md:mt-8 md:justify-between md:flex-row md:flex-wrap">
     <div class="p-0 mt-2 flexgrow min-w-230px md:mr-10px">
       <Farming token={$currentRoute.params.address} />
@@ -768,7 +775,11 @@
               role="menuitem">Redeem</a
             >
             {#if farmingPieObj}
-              <a href="#/staking/{farmingPieObj.slug}" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900" role="menuitem">Farm</a>
+              <a
+                href="#/staking/{farmingPieObj.slug}"
+                class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                role="menuitem">Farm</a
+              >
             {/if}
           </div>
         </div>
