@@ -25,6 +25,7 @@
     fetchPieTokens,
   } from '../components/helpers.js';
   import { pools, contract, balances } from '../stores/eth.js';
+  import Swap from '../components/Sw'
 
   import { buildFormulaNative } from '../helpers/tradingView.js';
 
@@ -637,6 +638,8 @@
 <div class="content mt-4">
   <PieExplanation address={token} />
 </div>
+
+<Swap />
 
 <div class="content spl">
   {#if poolsConfig[token].swapEnabled}
