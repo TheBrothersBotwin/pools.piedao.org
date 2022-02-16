@@ -21,24 +21,26 @@
 
   import { getTokenImage } from '../components/helpers';
 
+  export let setupListedToken;
+
   // TODO add a prop for optional swap commit function
 
   const ZeroEx = '0xdef1c0ded9bec7f1a1670819833240f027b25eff';
   $: listed = [
     {
-      address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-      symbol: 'ETH',
-      icon: getTokenImage('eth'),
+      address: '0x8d1ce361eb68e9e05573443c407d4a3bed23b033',
+      symbol: 'DEFI++',
+      icon: getTokenImage('0x8d1ce361eb68e9e05573443c407d4a3bed23b033'),
     },
     {
-      address: '0xad32A8e6220741182940c5aBF610bDE99E737b2D',
-      symbol: 'DOUGH',
-      icon: getTokenImage('0xad32A8e6220741182940c5aBF610bDE99E737b2D'),
+      address: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+      symbol: 'WETH',
+      icon: getTokenImage('0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'),
     },
     {
-      address: '0x6b175474e89094c44da98b954eedeac495271d0f',
-      symbol: 'DAI',
-      icon: getTokenImage('0x6B175474E89094C44Da98b954EedeAC495271d0F'),
+      address: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
+      symbol: 'WBTC',
+      icon: getTokenImage('0x2260fac5e5542a773aa44fbcfedf7c193bc2c599'),
     },
   ];
 
@@ -53,9 +55,9 @@
   let timeout;
 
   let defaultTokenSell = {
-    address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-    symbol: 'ETH',
-    icon: getTokenImage('eth'),
+    address: '0x8d1ce361eb68e9e05573443c407d4a3bed23b033',
+    symbol: 'DEFI++',
+    icon: getTokenImage('0x8d1ce361eb68e9e05573443c407d4a3bed23b033'),
   };
 
   let defaultTokenBuy = {
@@ -303,19 +305,6 @@
 
     if (freeze) {
       frozeQuote = quote;
-    }
-  }
-
-  function setupListedToken() {
-    for (let i = 0; i < poolsConfig.available.length; i++) {
-      let pie = poolsConfig[poolsConfig.available[i]];
-      if (!pie.useMintOverBuy) {
-        listed.push({
-          address: poolsConfig.available[i],
-          symbol: pie.symbol,
-          icon: getTokenImage(poolsConfig.available[i]),
-        });
-      }
     }
   }
 </script>
