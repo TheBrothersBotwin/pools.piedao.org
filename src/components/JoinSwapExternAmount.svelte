@@ -23,7 +23,8 @@
 
   export let listed = [];
 
-  $: console.log(listed);
+  export let buyTokenAddress;
+  export let buyTokenSymbol;
 
   const ZeroEx = '0xdef1c0ded9bec7f1a1670819833240f027b25eff';
   //   $: listed = [
@@ -54,16 +55,12 @@
   let targetModal = 'sell';
   let timeout;
 
-  let defaultTokenSell = {
-    address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-    symbol: 'ETH',
-    icon: getTokenImage('eth'),
-  };
+  $: defaultTokenSell = usefulArray[0];
 
   let defaultTokenBuy = {
-    address: '0xe4f726adc8e89c6a6017f01eada77865db22da14',
-    symbol: 'BCP',
-    icon: getTokenImage('0xe4f726adc8e89c6a6017f01eada77865db22da14'),
+    address: buyTokenAddress,
+    symbol: buyTokenSymbol,
+    icon: getTokenImage(buyTokenAddress),
   };
 
   const defaultAmount = {
@@ -84,7 +81,7 @@
         if (token === sellToken) {
           return;
         }
-        buyToken = token;
+        buyToken = current.route.params.address;
       }
       fetchQuote();
     }

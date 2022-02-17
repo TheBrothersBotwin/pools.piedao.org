@@ -615,7 +615,11 @@
     </div>
   {/if}
 
-  <Swap listed={getListed()} />
+  <Swap
+    listed={getListed()}
+    buyTokenAddress={$currentRoute.params.address}
+    buyTokenSymbol={symbol}
+  />
 
   <div class="flex flex-col w-full mt-2 md:mt-8 md:justify-between md:flex-row md:flex-wrap">
     <div class="p-0 mt-2 flexgrow min-w-230px md:mr-10px">
