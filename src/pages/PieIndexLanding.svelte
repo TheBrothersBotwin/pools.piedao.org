@@ -137,6 +137,7 @@
       return component;
     }),
   );
+  $: console.log(composition);
 
   $: pieTokens = fetchPieTokens($balances);
 
@@ -207,6 +208,10 @@
       initialized = true;
       tradingViewWidgetComponent.initWidget(options);
     }
+  };
+
+  const getListed = () => {
+    return orderBy(composition, ['percentage'], ['desc']);
   };
 </script>
 
@@ -610,14 +615,13 @@
     </div>
   {/if}
 
-  <Swap />
+  <Swap listed={getListed()} />
 
   <div class="flex flex-col w-full mt-2 md:mt-8 md:justify-between md:flex-row md:flex-wrap">
     <div class="p-0 mt-2 flexgrow min-w-230px md:mr-10px">
       <Farming token={$currentRoute.params.address} />
     </div>
     <div class="p-0 mt-2 flexgrow	min-w-230px md:mr-10px">
-
       <!--This component might crash the entire site if etherscan is ever down.-->
       <!--<Etherscan token={$currentRoute.params.address} />-->
     </div>

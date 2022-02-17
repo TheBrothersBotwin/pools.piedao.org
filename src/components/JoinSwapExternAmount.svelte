@@ -21,24 +21,28 @@
 
   import { getTokenImage } from '../components/helpers';
 
+  export let listed = [];
+
+  $: console.log(listed);
+
   const ZeroEx = '0xdef1c0ded9bec7f1a1670819833240f027b25eff';
-  $: listed = [
-    {
-      address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-      symbol: 'ETH',
-      icon: getTokenImage('eth'),
-    },
-    {
-      address: '0xad32A8e6220741182940c5aBF610bDE99E737b2D',
-      symbol: 'DOUGH',
-      icon: getTokenImage('0xad32A8e6220741182940c5aBF610bDE99E737b2D'),
-    },
-    {
-      address: '0x6b175474e89094c44da98b954eedeac495271d0f',
-      symbol: 'DAI',
-      icon: getTokenImage('0x6B175474E89094C44Da98b954EedeAC495271d0F'),
-    },
-  ];
+  //   $: listed = [
+  //     {
+  //       address: token1Address,
+  //       symbol: 'ETH',
+  //       icon: getTokenImage(token1Address),
+  //     },
+  //     {
+  //       address: token2Address,
+  //       symbol: 'DOUGH',
+  //       icon: getTokenImage(tokenAddress),
+  //     },
+  //     {
+  //       address: token3Address,
+  //       symbol: 'DAI',
+  //       icon: getTokenImage('token3Address),
+  //     },
+  //   ];
 
   let modal;
   let modalOption = {
@@ -126,7 +130,7 @@
   $: if ($eth.address) {
     if (!initialized.onChainData && !isLoading) {
       isLoading = true;
-      fetchOnchainData();
+      //   fetchOnchainData();
       initialized.onChainData = true;
       isLoading = false;
     }
@@ -140,10 +144,9 @@
   onMount(async () => {
     isLoading = true;
     console.log('onMount');
-    setupListedToken();
 
     if ($eth.address) {
-      await fetchOnchainData();
+      //   await fetchOnchainData();
       initialized.onChainData = true;
     }
     await fetchQuote();
@@ -151,14 +154,14 @@
     isLoading = false;
   });
 
-  function showBalanceError() {
-    if (!balances[sellToken.address]) return;
-    const weiAmount = amount.bn.toFixed(0);
-    const shouldShowError = balances[sellToken.address].bn.isGreaterThanOrEqualTo(weiAmount)
-      ? false
-      : true;
-    return shouldShowError;
-  }
+  //   function showBalanceError() {
+  //     if (!balances[sellToken.address]) return;
+  //     const weiAmount = amount.bn.toFixed(0);
+  //     const shouldShowError = balances[sellToken.address].bn.isGreaterThanOrEqualTo(weiAmount)
+  //       ? false
+  //       : true;
+  //     return shouldShowError;
+  //   }
 
   function needApproval(allowance) {
     if (!$eth.address || !$eth.signer) return false;
@@ -180,7 +183,7 @@
 
     await approveMax(sellToken.address, ZeroEx);
     needAllowance = false;
-    await fetchOnchainData();
+    // await fetchOnchainData();
   }
 
   function onAmountChange() {
@@ -189,30 +192,30 @@
     fetchQuote();
   }
 
-  async function fetchOnchainData() {
-    // Fetch balances, allowance and decimals
-    listed = await fetchBalances(listed, $eth.address, $eth.provider);
+  //   async function fetchOnchainData() {
+  //     // Fetch balances, allowance and decimals
+  //     listed = await fetchBalances(listed, $eth.address, $eth.provider);
 
-    if (sellToken) {
-      sellToken = find(listed, ['address', sellToken.address], defaultTokenSell);
-    } else {
-      sellToken = defaultTokenSell;
-    }
+  //     if (sellToken) {
+  //       sellToken = find(listed, ['address', sellToken.address], defaultTokenSell);
+  //     } else {
+  //       sellToken = defaultTokenSell;
+  //     }
 
-    if (buyToken) {
-      buyToken = find(listed, ['address', buyToken.address], defaultTokenBuy);
-    } else {
-      buyToken = defaultTokenBuy;
-    }
+  //     if (buyToken) {
+  //       buyToken = find(listed, ['address', buyToken.address], defaultTokenBuy);
+  //     } else {
+  //       buyToken = defaultTokenBuy;
+  //     }
 
-    listed.forEach((token) => {
-      allowances[token.address] = token.allowance;
-    });
+  //     listed.forEach((token) => {
+  //       allowances[token.address] = token.allowance;
+  //     });
 
-    listed.forEach((token) => {
-      balances[token.address] = token.balance;
-    });
-  }
+  //     listed.forEach((token) => {
+  //       balances[token.address] = token.balance;
+  //     });
+  //   }
 
   async function fetchQuote(selfRefresh = false, freeze = false) {
     if (!amount.label || amount.label === 0 || amount.label === '' || isLoading === true) {
@@ -237,18 +240,18 @@
     }
   }
 
-  function setupListedToken() {
-    for (let i = 0; i < poolsConfig.available.length; i++) {
-      let pie = poolsConfig[poolsConfig.available[i]];
-      if (!pie.useMintOverBuy) {
-        listed.push({
-          address: poolsConfig.available[i],
-          symbol: pie.symbol,
-          icon: getTokenImage(poolsConfig.available[i]),
-        });
-      }
+  $: usefulArray = (() => {
+    const newListed = [];
+    for (const token of listed) {
+      newListed.push({
+        address: token.address,
+        symbol: token.symbol,
+        icon: getTokenImage(token.address),
+      });
     }
-  }
+
+    return newListed;
+  })();
 
   async function swap() {
     if (!quote) {
@@ -288,7 +291,7 @@
             message: `${amount.label.toFixed(2)} ${sellToken.symbol} swapped successfully`,
             type: 'success',
           });
-          fetchOnchainData();
+          //   fetchOnchainData();
           amount = defaultAmount;
           dismiss();
           subscription.unsubscribe();
@@ -305,7 +308,7 @@
 </script>
 
 <TokenSelectModal
-  tokens={$eth.address ? orderBy(listed, ['balance.number'], ['desc']) : listed}
+  tokens={$eth.address ? orderBy(usefulArray, ['balance.number'], ['desc']) : usefulArray}
   open={tokenSelectModalOpen}
   callback={tokenSelectCallback}
 />
